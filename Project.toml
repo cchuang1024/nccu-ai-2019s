@@ -1,0 +1,9 @@
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
+Lathe = "38d8eb38-e7b1-11e9-0012-376b6c802672"
+MLDataUtils = "cc2ba9b6-d476-5e6d-8eaf-a92d5412d41d"
+PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+StatsKit = "2cb19f9e-ec4d-5c53-8573-a4542a68d3f0"
