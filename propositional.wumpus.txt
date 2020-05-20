@@ -1,0 +1,130 @@
+(deffacts initial
+	(b11 false)
+	(s11 false)
+	(b21 true)
+	(b12 false)
+	(s21 false)
+	(s12 true)
+	(p11 no)
+	(w11 no)
+	(p21 unknown)
+	(p31 unknown)
+	(p22 unknown)
+	(p12 unknown)
+	(p13 unknown)
+	(w21 unknown)
+	(w31 unknown)
+	(w22 unknown)
+	(w12 unknown)
+	(w13 unknown)
+)
+
+(defrule p31r
+	(p31 true)
+=>
+	(assert (b21 true))
+	(assert (b32 true))
+	(assert (b41 true))
+)
+
+(defrule b21rp11
+	(b21 true)
+	(p11 unknown)
+=>
+	(assert (p11 maybe))
+)
+
+(defrule b21rp22
+	(b21 true)
+	(p22 unknown)
+=>
+	(assert (p22 maybe))
+)
+
+(defrule b21rp31
+	(b21 true)
+	(p31 unknown)
+=>
+	(assert (p31 maybe))
+)
+
+(defrule b12rp11
+	(b12 true)
+	(p11 unknown)
+=>
+	(assert (p11 maybe))
+)
+
+(defrule b12rp22
+	(b12 true)
+	(p22 unknown)
+=>
+	(assert (p22 maybe))
+)
+
+(defrule b12rp13
+	(b12 true)
+	(p13 unknown)
+=>
+	(assert (p13 maybe))
+)
+
+(defrule nb12rp11
+	(b12 false)
+=>
+	(assert (p11 no))
+)
+
+(defrule nb12rp22
+	(b12 false)
+=>
+	(assert (p22 no))
+)
+
+(defrule nb12rp13
+	(b12 false)
+=>
+	(assert (p13 no))
+)
+
+(defrule p31no
+	(p31 no)
+	?f <- (p31 maybe)
+=>
+	(retract ?f)
+)
+
+(defrule p22no
+	(p22 no)
+	?f <- (p22 maybe)
+=>
+	(retract ?f)
+)
+
+(defrule p11no
+	(p11 no)
+	?f <- (p11 maybe)
+=>
+	(retract ?f)
+)
+
+(defrule warnPitp11
+	(declare (salience -5))
+	(p11 maybe)
+=>
+	(printout t "(1,1) may have a pit" crlf)
+)
+
+(defrule warnPitp22
+	(declare (salience -5))
+	(p22 maybe)
+=>
+	(printout t "(2,2) may have a pit" crlf)
+)
+
+(defrule warnPitp31
+	(declare (salience -5))
+	(p31 maybe)
+=>
+	(printout t "(3,1) may have a pit" crlf)
+)
