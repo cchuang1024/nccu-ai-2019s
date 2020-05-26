@@ -56,9 +56,7 @@
             (teacher-id P001)
             (pre-cond C103 C115)))
 
-(deftemplate teacher-owned
-    (slot teacher-id)
-    (multislot course-id))
+(reset)
 
 (defrule expand-tids
     ?g <- (givenby $?tids)
@@ -74,12 +72,15 @@
 
 =>
     (printout t "find course: " ?cid crlf)
-    (assert (givenby DONE)))
-
-(reset)
+    (retract ?s))
 
 (assert (givenby P004 P006))
 
 (agenda)
 
 (run)
+
+
+(deftemplate teacher-owned
+    (slot teacher-id)
+    (multislot course-id))
