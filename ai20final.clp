@@ -69,7 +69,17 @@
 
 (defrule search-by-teachers
     ?s <- (search-tid ?tid)
-    ?c <- (course (teacher-id ?tid $?))
+    ?c <- (course (course-id ?cid)
+                  (teacher-id ?tid $?))
+
 =>
-    (printout t "find course: " ?c crlf)
-    (retract ?s))
+    (printout t "find course: " ?cid crlf)
+    (assert (givenby DONE)))
+
+(reset)
+
+(assert (givenby P004 P006))
+
+(agenda)
+
+(run)
