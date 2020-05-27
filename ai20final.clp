@@ -56,6 +56,10 @@
             (teacher-id P001)
             (pre-cond C103 C115)))
 
+(deftemplate course-map
+        (slot cid)
+        (slot tid))
+
 (reset)
 
 (defrule expand-tids
@@ -66,13 +70,22 @@
     (retract ?g))
 
 (defrule search-by-teachers
+    (not (givenby))
     ?s <- (search-tid ?tid)
-    ?c <- (course (course-id ?cid)
-                  (teacher-id ?tid $?))
-
+    (forall (course (course-id ?cid)
+                    (teacher-id ?tid $?)))
 =>
-    (printout t "find course: " ?cid crlf)
-    (retract ?s))
+    (assert (course-map (tid ?tid)
+                        (cid ?cid)))
+    (retract ?s)))
+
+(defrule print-course-map
+    (not (search-tid))
+    ?c <- (course-map (cid ?cid)
+                      (tid ?tid))
+=>
+        (printout t "find course: " ?cid " taught by " ?tid crlf)
+        (retract ?c))
 
 (assert (givenby P004 P006))
 
