@@ -3,6 +3,10 @@
     (multislot teacher-id)
     (multislot pre-cond))
 
+(deftemplate course-map
+        (slot cid)
+        (slot tid))
+
 (deffacts courses
     (course (course-id C100)
             (teacher-id P007)
@@ -56,11 +60,9 @@
             (teacher-id P001)
             (pre-cond C103 C115)))
 
-(deftemplate course-map
-        (slot cid)
-        (slot tid))
-
 (reset)
+
+;; 第一題：
 
 (defrule expand-tids
     ?g <- (givenby $?tids)
@@ -70,30 +72,38 @@
     (retract ?g))
 
 (defrule search-by-teachers
-    (not (givenby))
     ?s <- (search-tid ?tid)
-    (forall (course (course-id ?cid)
-                    (teacher-id ?tid $?)))
+    (course (course-id ?cid)
+            (teacher-id ?tid $?))
 =>
-    (assert (course-map (tid ?tid)
-                        (cid ?cid)))
-    (retract ?s)))
+    (assert (start-search))
+    (assert (course-map (cid ?cid)
+                        (tid ?tid))))
 
 (defrule print-course-map
-    (not (search-tid))
     ?c <- (course-map (cid ?cid)
                       (tid ?tid))
 =>
         (printout t "find course: " ?cid " taught by " ?tid crlf)
         (retract ?c))
 
-(assert (givenby P004 P006))
+(defrule remove-tid
+    (declare (salience -5))
+    (not (course-map (cid $?)
+                     (tid $?)))
+    (start-search)
+    ?t <- (search-tid $?)
+=>
+    (retract ?t))
 
-(agenda)
+(defrule remove-flag
+    (declare (salience -6))
+    (not (search-tid $?))
+    (not (course-map (cid $?)
+                     (tid $?)))
+    ?f <- (start-search)
+=>
+    (retract ?f))
 
-(run)
+;; 第二題：
 
-
-(deftemplate teacher-owned
-    (slot teacher-id)
-    (multislot course-id))
