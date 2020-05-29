@@ -76,7 +76,6 @@
     (course (course-id ?cid)
             (teacher-id ?tid $?))
 =>
-    (assert (start-search))
     (assert (course-map (cid ?cid)
                         (tid ?tid))))
 
@@ -91,19 +90,9 @@
     (declare (salience -5))
     (not (course-map (cid $?)
                      (tid $?)))
-    (start-search)
     ?t <- (search-tid $?)
 =>
     (retract ?t))
-
-(defrule remove-flag
-    (declare (salience -6))
-    (not (search-tid $?))
-    (not (course-map (cid $?)
-                     (tid $?)))
-    ?f <- (start-search)
-=>
-    (retract ?f))
 
 ;; 第二題：
 
