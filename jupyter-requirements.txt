@@ -121,7 +121,6 @@ traitlets==4.3.3
 typed-ast==1.4.1
 unification==0.2.2
 urllib3==1.25.9
-vose==0.0.1
 wcwidth==0.2.3
 webencodings==0.5.1
 widgetsnbextension==3.5.1
