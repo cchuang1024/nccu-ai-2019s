@@ -7,6 +7,10 @@
         (slot cid)
         (slot tid))
 
+(deftemplate course-his
+        (slot cid)
+        (slot tid))
+
 (deffacts courses
     (course (course-id C100)
             (teacher-id P007)
@@ -96,3 +100,50 @@
 
 ;; 第二題：
 
+(defrule expand-cids
+    ?c <- (taughtby $?cids)
+=>
+    (progn$ (?cid $?cids)
+        (assert (search-cid ?cid)))
+    (retract ?c))
+
+(defrule search-by-course
+    ?c <- (search-cid ?cid)
+    (course (course-id ?cid)
+            (teacher-id $?tids)
+            (pre-cond $?pre-cids))
+=>
+    (progn$ (?tid $?tids)
+        (assert (course-his (cid ?cid)
+                            (tid ?tid))))
+    (progn$ (?pre-cid $?pre-cids)
+        (assert (search-cid ?pre-cid)))        
+    (retract ?c))
+
+(defrule taught-his
+    ?h <- (course-his (tid ?tid))
+=>
+    (assert (taught-his ?tid)))
+
+(defrule display-his
+    ?h <- (taught-his ?tid)
+=>
+    (printout t "tought by " ?tid crlf))
+
+(defrule remove-none
+    (declare (salience -5))
+    ?n <- (search-cid NONE)
+=>
+    (retract ?n))
+
+(defrule remove-course-his
+    (declare (salience -5))
+    ?h <- (course-his (tid $?))
+=>
+    (retract ?h))
+
+(defrule remove-taught-his
+    (declare (salience -5))
+    ?h <- (taught-his $?)
+=>
+    (retract ?h))
