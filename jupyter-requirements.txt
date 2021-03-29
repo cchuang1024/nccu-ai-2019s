@@ -80,7 +80,7 @@ pyarrow==0.17.1
 pycparser==2.20
 pydot==1.4.1
 pydotplus==2.0.2
-Pygments==2.6.1
+Pygments==2.7.4
 pylog==1.1
 pyparsing==2.4.7
 pyrsistent==0.16.0
